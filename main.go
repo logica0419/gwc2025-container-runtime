@@ -49,11 +49,6 @@ func main() {
 
 // runサブコマンド
 func run(c Config) error {
-	// Namespaceの設定
-	if err := SetupNamespace(); err != nil {
-		return errors.WithStack(err)
-	}
-
 	// cgroupの設定
 	if err := SetupCgroup(c.Name, os.Getpid(), c.Cgroup); err != nil {
 		return errors.WithStack(err)
