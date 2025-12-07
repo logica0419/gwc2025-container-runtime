@@ -3,7 +3,7 @@ init:
 	@go mod download
 	@echo "{\n  \"name\": \"container\",\n  \"entry_point\": [\"/bin/bash\"],\
 	\n  \"cgroup\": {\n    \"max_cpu_percent\": 100,\n    \"MaxMemoryMB\": 1024\n  },\
-	\n  \"rootfs\": {\n    \"rootfs_path\": \"./root\"\n  }\n}" > config.json
+	\n  \"rootfs\": {\n    \"rootfs_path\": \"./rootfs\"\n  }\n}" > config.json
 
 main: *.go
 	go build -o main *.go
@@ -12,8 +12,13 @@ PHONY: run
 run: main
 	./main run bash
 
-PHONY: rootfs
 .ONESHELL: rootfs
 rootfs:
-	rm -r root && mkdir root
-	docker export $$(docker create "$${IMAGE}") | tar -C root -xvf -
+	@if [ -z "$${IMAGE}" ]; then echo "Error: IMAGE環境変数が設定されていません"; exit	1; fi
+	@mkdir -p rootfs
+	@docker export $$(docker create "$${IMAGE}") | tar -C rootfs -xvf -
+
+PHONY: clean
+clean:
+	@rm -f main
+	@rm -rf rootfs
