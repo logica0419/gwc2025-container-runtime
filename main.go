@@ -51,6 +51,11 @@ func main() {
 			log.Fatalln(errors.StackTraces(err))
 		}
 
+	case "init":
+		if err := initCommand(c); err != nil {
+			log.Fatalln(errors.StackTraces(err))
+		}
+
 	default:
 		log.Fatalf("unknown command: %s", os.Args[1])
 	}
@@ -59,20 +64,46 @@ func main() {
 // runサブコマンド
 func runCommand(c Config) error {
 	// cgroupの設定
+	//  コンテナ作成処理が暴走すると困るので、他処理より前に行う
 	if err := SetupCgroup(c.Name, os.Getpid(), c.Cgroup); err != nil {
 		return errors.WithStack(err)
 	}
 
+	// exec.Cmdを使って自分自身を呼び出す
+	cmd := exec.Command("/proc/self/exe", "init")
+	cmd.Stdin, cmd.Stdout, cmd.Stderr = os.Stdin, os.Stdout, os.Stderr
+
+	// Go側の都合で、PID Namespaceを分離した後にexec.Cmdの実行はできないので
+	// PID Namespaceを分離しながら呼びだすようSysProcAttrを設定する
+	cmd.SysProcAttr = &unix.SysProcAttr{
+		Cloneflags: unix.CLONE_NEWPID,
+	}
+
+	if err := cmd.Run(); err != nil {
+		return errors.WithStack(err)
+	}
+
+	return nil
+}
+
+// initサブコマンド
+func initCommand(c Config) error {
+	// 分離すべき残りのNamespaceを分離
+	if err := unix.Unshare(unix.CLONE_NEWUTS | unix.CLONE_NEWNET | unix.CLONE_NEWNS); err != nil {
+		return errors.WithStack(err)
+	}
+
 	// rootfsの設定
-	_ = unix.Unshare(unix.CLONE_NEWNS) // rootfsで使うので、Namespace系の処理だが仮置き
 	if err := SetupRootfs(c.Rootfs); err != nil {
 		return errors.WithStack(err)
 	}
 
 	// 作成した簡易コンテナ内でエントリーポイントを実行
-	cmd := exec.Command(c.EntryPoint[0], c.EntryPoint[1:]...)
-	cmd.Stdin, cmd.Stdout, cmd.Stderr = os.Stdin, os.Stdout, os.Stderr
-	if err := cmd.Run(); err != nil {
+	path, err := exec.LookPath(c.EntryPoint[0])
+	if err != nil {
+		return errors.WithStack(err)
+	}
+	if err := unix.Exec(path, c.EntryPoint, os.Environ()); err != nil {
 		return errors.WithStack(err)
 	}
 
