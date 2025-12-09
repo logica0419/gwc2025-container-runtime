@@ -18,6 +18,19 @@ type Config struct {
 	Rootfs     RootfsConfig `json:"rootfs"`
 }
 
+// 指定された設定ファイルを構造体にパース
+func readConfig(file string) (Config, error) {
+	configFile, err := os.ReadFile(file)
+	if err != nil {
+		return Config{}, errors.WithStack(err)
+	}
+	var c Config
+	if err := json.Unmarshal(configFile, &c); err != nil {
+		return Config{}, errors.WithStack(err)
+	}
+	return c, nil
+}
+
 func main() {
 	// このgoroutineが実行されるOSスレッドを1つに定め、固定
 	//  Namespaceやcgroupの設定を正しく行うため
@@ -26,13 +39,9 @@ func main() {
 	defer runtime.UnlockOSThread()
 
 	// 設定の読み込み
-	configFile, err := os.ReadFile("config.json")
+	c, err := readConfig("config.json")
 	if err != nil {
-		log.Fatalln(err)
-	}
-	var c Config
-	if err := json.Unmarshal(configFile, &c); err != nil {
-		log.Fatalln(err)
+		log.Fatalln(errors.StackTraces(err))
 	}
 
 	// 指定されたサブコマンドの実行
