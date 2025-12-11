@@ -11,5 +11,5 @@
       "version": "latest"
     }
   },
-  "postCreateCommand": "make init && make rootfs"
+  "postCreateCommand": "make init && IMAGE=ubuntu make rootfs"
 }
