@@ -6,7 +6,13 @@ const config: UserConfig<DefaultTheme.Config> = {
   title: "低レベルコンテナランタイム自作講座",
   head: [
     ["link", { rel: "icon", href: "/favicon.webp" }],
-    ["meta", { property: "og:image", content: "/image.png" }],
+    [
+      "meta",
+      {
+        property: "og:image",
+        content: "https://gwc2025.logica0419.dev/image.png",
+      },
+    ],
     [
       "meta",
       {
