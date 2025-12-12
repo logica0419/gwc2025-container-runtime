@@ -25,7 +25,7 @@ Dev Containerは**開発環境をコンテナとして定義**し、エディタ
 - PCに**Docker**が入っている
   - Docker Desktopで大丈夫です
 
-::: warning
+::: warning 注意
 OCI Runtimeに**runc以外**を指定している場合、構築に失敗する可能性があります (youkiでは構築できませんでした)。  
 該当者はほぼいないと思いますが、念のため記載しておきます。
 :::
@@ -45,7 +45,7 @@ OCI Runtimeに**runc以外**を指定している場合、構築に失敗する�
 [公式ドキュメント](https://pleiades.io/help/go/connect-to-devcontainer.html)の通りです。  
 「[IDE 内で Dev Container を起動する](https://pleiades.io/help/go/start-dev-container-inside-ide.html)」の手順で恐らく大丈夫だと思います。
 
-::: info
+::: info 注意
 講師はVS Codeを使用しているため、**十分にサポートできない**場合があります。
 :::
 
@@ -53,7 +53,7 @@ OCI Runtimeに**runc以外**を指定している場合、構築に失敗する�
 
 ご自身の使っているエディタが**Dev Containerに対応**している場合、その手順に従って構築して下さい。
 
-::: info
+::: info 注意
 講師はVS Codeを使用しているため、**十分にサポートできない**場合があります。
 :::
 
@@ -86,13 +86,13 @@ VS Codeの場合、[WSL拡張機能](https://marketplace.visualstudio.com/items?
 [UTM](https://mac.getutm.app/)を使ってLinuxを起動するのがメジャーらしいです。  
 VS Codeの場合、[Remote - SSH](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh)などで直接編集できるようにしておくと良いでしょう。
 
-::: info
+::: info 注意
 講師は普段Windows + WSLを使用しているため、**十分にサポートできない**場合があります。
 :::
 
 ### Linuxの場合
 
-ワークショップで用いるパソコンのOSが**既にLinux**であれば、そのまま使っていただいて大丈夫です。
+ワークショップで用いるコンピューターのOSが**既にLinux**であれば、そのまま使っていただいて大丈夫です。
 
 ## セットアップ確認
 
