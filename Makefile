@@ -30,3 +30,7 @@ clean:
 	@rm -f main
 	@rm -rf rootfs
 	@rm -rf spec
+
+.PHONY: check
+check:
+	@sh ./dev/env_check.sh
