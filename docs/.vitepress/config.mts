@@ -4,7 +4,7 @@ import type { VitePressSidebarOptions } from "vitepress-sidebar/types";
 
 const config: UserConfig<DefaultTheme.Config> = {
   title: "低レベルコンテナランタイム自作講座",
-  head: [["link", { rel: "icon", href: "/logo.webp" }]],
+  head: [["link", { rel: "icon", href: "/favicon.webp" }]],
 
   srcDir: ".",
   themeConfig: {
