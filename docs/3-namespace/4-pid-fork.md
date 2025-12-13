@@ -63,10 +63,10 @@ bash: fork: Cannot allocate memory
 ```
 
 おや、妙なエラーが出ていますね。  
-また、PIDも**振り直されてなさ**そうです。[3-1](/3-namespace/1-os-exec-syscall)と同様にプロセスツリーを表示すると、**PIDが振り直されていない**ことがわかります。  
+また、PIDも**振り直されてなさ**そうです。[3-1](/3-namespace/1-os-exec-syscall)と同様にプロセスツリーを表示すると、`echo $$`で表示されたPIDはホスト側のPIDで、**PIDが振り直されていない**ことがわかります。  
 
 :::tip
-`pstree`に入れるPIDを取得するのは、`sudo su`**した後のシェル**の方が見やすいと思います。
+`sudo su`**した後のシェル**で`pstree`に入れるPIDを取得した方が見やすいと思います。
 :::
 
 ```plaintext
@@ -109,8 +109,10 @@ Linuxの都合上、生成されたプロセスの**自認PIDを後から変更�
 :::
 
 :::details ヒント3
-Go側の都合で、PID Namespaceを**分離した後にexec.Cmdの実行はできません**！  
-`exec.Cmd`には`SysProcAttr`という`*unix.SysProcAttr`型のフィールドがありますが、この中の`Cloneflags`というフィールドに`unix.Unshare()`に渡したのと同じフラッグを渡すと、**Namespaceを分けながら子プロセスを生成**してくれます。
+Go側の都合で、PID Namespaceを**分離した後にexec.Cmdの実行はできません**！
+
+`exec.Cmd`には`SysProcAttr`という[`*unix.SysProcAttr`](https://pkg.go.dev/syscall#SysProcAttr)型のフィールドがあります。  
+この中の`Cloneflags`というフィールドに`unix.Unshare()`に渡したのと同じ`flags`を渡すと、子プロセスを生成する際`flags`で指定した**Namespaceを分けながら**生成してくれます。
 :::
 
 ### 想定解答
