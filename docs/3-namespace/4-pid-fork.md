@@ -64,12 +64,15 @@ bash: fork: Cannot allocate memory
 
 おや、妙なエラーが出ていますね。  
 また、PIDも**振り直されてなさ**そうです。[3-1](/3-namespace/1-os-exec-syscall)と同様にプロセスツリーを表示すると、**PIDが振り直されていない**ことがわかります。  
-(右端がシェルのPID)
+
+:::tip
+`pstree`に入れるPIDを取得するのは、`sudo su`**した後のシェル**の方が見やすいと思います。
+:::
 
 ```plaintext
-Every 1.0s: pstree -p 157993
+Every 1.0s: pstree -p 184552
 
-bash(157993)---sudo(184548)---sudo(184549)---su(184550)---bash(184552)---make(184719)---bash(184720)
+bash(184552)---make(184719)---bash(184720)
 ```
 
 これには、PID Namespaceの**特別な仕様**が深く関わってきます。
