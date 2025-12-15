@@ -42,7 +42,7 @@ const config: UserConfig<DefaultTheme.Config> = {
     socialLinks: [
       {
         icon: "github",
-        link: "https://github.com/logica0419/coding-kubernetes",
+        link: "https://github.com/logica0419/gwc2025-container-runtime",
       },
     ],
   },
