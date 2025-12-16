@@ -58,6 +58,7 @@ const sidebarConfigs: VitePressSidebarOptions = {
   collapsed: false,
   useTitleFromFileHeading: true,
   useFolderTitleFromIndexFile: true,
+  useFolderLinkFromIndexFile: true,
 };
 
 export default defineConfig(withSidebar(config, sidebarConfigs));
