@@ -37,7 +37,7 @@ OCI Runtimeに**youki**を指定している場合、構築が失敗してしま
 1. [Dev Containers拡張機能](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)をVS Codeにインストール
 2. 右下に以下のような通知が出るはずなので「**コンテナーで再度開く**」をクリック
    - 通知が出なければ再度VS Codeを開き直して下さい  
-![通知](./1.png)
+     ![通知](./1.png)
 3. しばらく待てば環境構築が終わっているはずです
 
 ### GoLandの場合

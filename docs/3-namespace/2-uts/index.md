@@ -34,7 +34,7 @@ UTS Namespaceは、**hostnameの設定を分ける**ことができるNamespace�
 Namespace同士が**異なるホスト名**を持つことができますし、ホスト名の変更が互いに**影響を及ぼしません**。
 
 早速[`unix.Unshare`](https://pkg.go.dev/golang.org/x/sys/unix#Unshare)を使ってNamespaceを分離してみましょう！  
-以下の理由で、Namespaceの処理は**cgroupとrootfsの間**に入れて下さい。  
+以下の理由で、Namespaceの処理は**cgroupとrootfsの間**に入れて下さい。
 
 - cgroupで**リソースを制限してから**他の処理を行いたい
   - コンテナ作成処理の**暴走を避ける**ため
