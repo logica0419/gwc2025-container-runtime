@@ -20,8 +20,8 @@ func Chroot(path string) (err error)
 ```go
 // rootfs設定
 type RootfsConfig struct {
- // ルートファイルシステムのパス
- RootfsPath string `json:"rootfs_path"`
+  // ルートファイルシステムのパス
+  RootfsPath string `json:"rootfs_path"`
 }
 ```
 
